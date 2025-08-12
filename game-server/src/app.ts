@@ -1,9 +1,14 @@
-import express from 'express';
+//import express,{Express} from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import scoreRoutes from './routes/scoreRoutes';
+import scoreRoutes from './routes/scoreRoutes.js';
 
-const app = express();
+//import express, { Express, Request, Response } from "express";
+import express from 'express';
+import type {Express, Request, Response} from 'express';
+
+
+const app:Express = express();
 
 app.use(helmet());
 
@@ -16,9 +21,9 @@ app.use(express.urlencoded({extended:true}));
 
 app.use('/api/scores', scoreRoutes);
 
-app.get('/health', (_req, res) => res.json({ok : true}));
+app.get('/health', (_req: Request, res: Response) => res.json({ok : true}));
 
-app.use((req, res) => {
+app.use((req: Request, res:Response) => {
         res.status(404).json({ error: 'Not Found', path: req.path});
 });
 

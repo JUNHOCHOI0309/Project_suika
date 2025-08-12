@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import RateLimit from 'express-rate-limit';
-import Score from '../models/Score';
+import Score from '../models/Score.js';
 
-const router = Router();
+const router : Router = Router();
 
 const postLimiter = RateLimit({
         windowMs: 10 * 1000,

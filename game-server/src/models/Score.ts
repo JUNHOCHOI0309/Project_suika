@@ -1,4 +1,7 @@
-import mongoose, {Schema, InferSchemaType } from "mongoose";
+//import mongoose, {Schema, InferSchemaType } from "mongoose";
+import mongoose from 'mongoose';
+import type {InferSchemaType} from 'mongoose';
+const { Schema } = mongoose;
 
 const scoreSchema = new Schema({
         sessionId: {
