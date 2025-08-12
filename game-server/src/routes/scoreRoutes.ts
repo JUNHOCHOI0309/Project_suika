@@ -1,36 +1,44 @@
-import express from 'express';
+import { Router } from 'express';
+import RateLimit from 'express-rate-limit';
 import Score from '../models/Score';
-import { v4 as uuidv4 } from 'uuid';
 
-console.log('scoreRoutes loaded');
-const router = express.Router();
+const router = Router();
 
-router.get('/session', (req, res) => {
-        const sessionId = uuidv4();
-        res.json({ sessionId });
+const postLimiter = RateLimit({
+        windowMs: 10 * 1000,
+        max : 5,
 });
 
-router.post('/', async (req, res) => {
-        console.log('📥 /api payload:', req.body);
-        const { sessionId, score } = req.body;
+router.get('/health',(_req, res) => {
+        res.json({ ok:true, now: new Date().toISOString});
+});
 
-        if (!sessionId || typeof score !== 'number') {
-                return res.status(400).json({ error: 'Invalid session ID or score' });
-        }
-
+//POST /api/socres
+router.post('/', postLimiter, async (req, res, next) => {
         try {
-                const newScore = new Score({ sessionId, score });
-                await newScore.save();
-                res.status(201).json(newScore);
+
+                const { sessionId, score } = req.body ?? {};
+
+                if (typeof sessionId !== 'string' || !sessionId.trim() || typeof score !== 'number' || !Number.isFinite(score)) {
+                        return res.status(400).json({ error: 'Invalid session ID or score' });
+                }
+
+                const doc = await Score.create({ sessionId, score});
+                
+                return res.status(201).json(doc);
         } catch (error) {
-                console.error('Error saving score:', error);
-                res.status(500).json({ error: 'Internal server error' });
+                next(error);
         }
 });
 
-router.get('/leaderboard', async (_req, res) => {
-        const topScores = await Score.find().sort({ score: -1 }).limit(10);
-        res.json(topScores);
+//POST /api/scores/leaderboard
+router.get('/leaderboard', async (_req, res, next) => {
+        try {
+                const topScores = await Score.find().sort({ score: -1, createdAt: 1 }).limit(10).lean();
+                res.json(topScores);
+        } catch (err){
+                next(err);
+        }
 });
 
 

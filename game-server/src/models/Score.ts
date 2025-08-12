@@ -1,16 +1,22 @@
-import mongoose from "mongoose";
+import mongoose, {Schema, InferSchemaType } from "mongoose";
 
-const scoreSchema = new mongoose.Schema({
+const scoreSchema = new Schema({
         sessionId: {
                 type: String,
-                required: true,},
+                required: true,
+                index : true
+        },
         score: {
                 type: Number,
                 required: true,
+                index: -1,
                 default: 0,},
-        createdAt: {
-                type: Date,
-                default: Date.now,},
+},{
+        timestamps: { createdAt: true, updatedAt:false }
 });
 
-export default mongoose.model("Score", scoreSchema);
+scoreSchema.index({ score: -1, createdAt: 1});
+
+export type ScoreDoc = InferSchemaType<typeof scoreSchema>;
+
+export default mongoose.model<ScoreDoc>('Score', scoreSchema);

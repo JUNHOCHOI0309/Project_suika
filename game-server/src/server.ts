@@ -4,14 +4,21 @@ import app from "./app";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 3001;
-const MONGO_URI = process.env.MONGO_URI! || "mongodb://localhost:27017/suika-game";
+const PORT = Number(process.env.PORT || 3001);
+const MONGODB_URI = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI).then(() => {
-        app.listen(PORT, () => {
-                console.log(`Server is running on http://localhost:${PORT}`);
+if(!MONGODB_URI){
+        console.log('Missing MONGODB_URI in .env');
+        process.exit(1);
+}
+
+(async () => {
+        try {
+                app.listen(PORT, () => {
+                        console.log(`[server] Listening on http://127.0.0.1:${PORT}`);
                 });
-        }).catch((error) => {
-                console.error("MongoDB connection error:", error);
+        } catch( err ){
+                console.error('[server] Startup error:', err);
                 process.exit(1);
-        });
+        }
+})();
