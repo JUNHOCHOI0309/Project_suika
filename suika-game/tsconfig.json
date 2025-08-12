@@ -1,0 +1,29 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib":["DOM","ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ESNext",
+    "resolveJsonModule": true,
+    "types":["node", "jest", "react", "react-dom"],
+    "baseUrl": "./src",
+    "paths": {
+      "@suika-game/*": ["./*"],
+      "@suika-game/tsconfig/*": ["./tsconfig/*"],
+      "@suika-game/tsconfig": ["./tsconfig"]      
+  },
+  },
+}
