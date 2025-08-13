@@ -1,0 +1,15 @@
+#log file
+*.log
+
+#temp file
+*.tmp
+
+# Node.js module
+node_modules/
+
+#env file
+.env
+
+#build
+dist/
+build/
