@@ -18,8 +18,7 @@ const scoreSchema = new Schema({
         index: -1,
         default: 0,
     },
-}, {
-    timestamps: { createdAt: true, updatedAt: false }
-});
+    createdAt: { type: Date, default: Date.now, index: true },
+}, { collection: 'scores', versionKey: false, });
 scoreSchema.index({ score: -1, createdAt: 1 });
-exports.default = mongoose_1.default.model('Score', scoreSchema);
+exports.default = mongoose_1.default.models.Score || mongoose_1.default.model('Score', scoreSchema, 'scores');

@@ -14,12 +14,13 @@ const scoreSchema = new Schema({
                 required: true,
                 index: -1,
                 default: 0,},
-},{
-        timestamps: { createdAt: true, updatedAt:false }
-});
+	createdAt: { type: Date, default: Date.now, index: true  },
+},
+{ collection: 'scores', versionKey: false,}
+);
 
 scoreSchema.index({ score: -1, createdAt: 1});
 
 export type ScoreDoc = InferSchemaType<typeof scoreSchema>;
 
-export default mongoose.model<ScoreDoc>('Score', scoreSchema);
+export default (mongoose.models.Score as mongoose.Model<ScoreDoc>) || mongoose.model<ScoreDoc>('Score', scoreSchema, 'scores');

@@ -8,12 +8,13 @@ const PORT = Number(process.env.PORT || 3001);
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if(!MONGODB_URI){
-        console.log('Missing MONGODB_URI in .env');
+        console.log('Missing MONGODBURI in .env');
         process.exit(1);
 }
 
 (async () => {
         try {
+		await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 } as any);
                 app.listen(PORT, () => {
                         console.log(`[server] Listening on http://127.0.0.1:${PORT}`);
                 });

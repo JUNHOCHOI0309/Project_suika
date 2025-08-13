@@ -1,6 +1,7 @@
 //import { Router, type Request, type Response, type NextFunction  } from 'express';
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import RateLimit from 'express-rate-limit';
+import mongoose from 'mongoose';
 import Score from '../models/Score.js';
 
 const router : Router = Router();
@@ -41,6 +42,7 @@ router.post('/', postLimiter, async (req :Request , res: Response , next: NextFu
 //POST /api/scores/leaderboard
 router.get('/leaderboard', async (_req: Request, res: Response, next: NextFunction) => {
         try {
+		console.log("abcde");
 		if(mongoose.connection.readyState !== 1) {
 			return res.status(503).json({ error: ' DB not connected' , state: mongoose.connection.readyState});
 		}
@@ -49,6 +51,7 @@ router.get('/leaderboard', async (_req: Request, res: Response, next: NextFuncti
 			...r,
 			createdAt: r.createdAt ?? new Date(0),
 		}));
+		console.log("safe result:",safe);
                 res.json(safe);
         } catch (err){
                 next(err);
