@@ -6,7 +6,7 @@ import GameOverOverlay from './components/GameOverOverlay';
 import dropSnd from '../assets/sounds/drop_sound.mp3';
 import mergeSnd from '../assets/sounds/merged_sound.mp3';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://141.147.151.55/:3001';
 
 export default function MatterEngine() {
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -203,7 +203,7 @@ export default function MatterEngine() {
     (async () => {
       try{
         console.log('[client] POST /api/scores:', payload);
-        const res = await fetch(`${API_BASE}/api/scores`,{
+        await fetch(`${API_BASE}/api/scores`,{
           method:'POST',
           headers: { 'Content-Type': 'application/json'},
           body : JSON.stringify(payload),

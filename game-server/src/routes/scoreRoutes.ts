@@ -15,7 +15,7 @@ router.get('/health',(_req: Request, res : Response ) => {
         res.json({ ok:true, now: new Date().toISOString()});
 });
 
-//POST /api/socres
+//POST /api/scores
 router.post('/', postLimiter, async (req :Request , res: Response , next: NextFunction) => {
         try {
 
