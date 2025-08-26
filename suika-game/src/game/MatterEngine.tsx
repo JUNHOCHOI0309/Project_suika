@@ -78,7 +78,7 @@ export default function MatterEngine() {
     //센서 생성
     const deadline = Matter.Bodies.rectangle(200, 20, 400, 2, {
       isStatic: true,
-      isSensor: false, // 센서로 설정하여 충돌 감지
+      isSensor: true, // 센서로 설정하여 충돌 감지
       render: {
         fillStyle: 'orange',
       },
@@ -249,8 +249,9 @@ export default function MatterEngine() {
   }
 
   //과일 생성
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handlePointerDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!engineRef.current || !worldRef.current || isInputLocked || isGameOver) return;
+
     if(!audioUnlokedRef.current){
       audioUnlokedRef.current = true;
       [...dropPoolRef.current, ...mergePoolRef.current].forEach(a=>{
@@ -290,8 +291,6 @@ export default function MatterEngine() {
 
     setNextFruitID(getRandomFruitID());
 
-    
-
     if(deathCheckTimeout.current) clearTimeout(deathCheckTimeout.current);
     deathCheckTimeout.current = setTimeout(() => {
       checkGameOver();
@@ -329,12 +328,13 @@ export default function MatterEngine() {
   };    
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
       <div
         ref={sceneRef}
-        className="border border-black"
+        className="border border-black w-[92vw] max-w-[400px] aspect-[2/3] overflow-hidden rounded-md"
         style={{ width: 400, height: 600 }}
-        onClick={handleClick}
+        //onClick={handleClick}
+        onPointerDown={handlePointerDown}
       />
       <div className="text-center mt-4">
         <h2 className="text-xl font-bold">점수: {score}</h2>
