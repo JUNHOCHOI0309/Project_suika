@@ -6,7 +6,7 @@ import GameOverOverlay from './components/GameOverOverlay';
 import dropSnd from '../assets/sounds/drop_sound.mp3';
 import mergeSnd from '../assets/sounds/merged_sound.mp3';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://141.147.151.55/:3001';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 export default function MatterEngine() {
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -77,8 +77,8 @@ export default function MatterEngine() {
 
     //센서 생성
     const deadline = Matter.Bodies.rectangle(200, 20, 400, 2, {
-      isStatic: false,
-      isSensor: true, // 센서로 설정하여 충돌 감지
+      isStatic: true,
+      isSensor: false, // 센서로 설정하여 충돌 감지
       render: {
         fillStyle: 'orange',
       },
@@ -203,7 +203,7 @@ export default function MatterEngine() {
     (async () => {
       try{
         console.log('[client] POST /api/scores:', payload);
-        await fetch(`${API_BASE}/api/scores`,{
+        await fetch(`/api/scores`,{
           method:'POST',
           headers: { 'Content-Type': 'application/json'},
           body : JSON.stringify(payload),

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://http://141.147.151.55/:3001';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 interface ScoreEntry {
   _id?: string;
@@ -61,7 +61,7 @@ export default function Leaderboard() {
     (async () => {
       try {
         setLoading(true);
-        const res = await fetch(`${API_BASE}/api/scores/leaderboard`, { cache: 'no-store' });
+        const res = await fetch(`/api/scores/leaderboard`, { cache: 'no-store' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data: ScoreEntry[] = await res.json();
         setScores(data);
