@@ -77,7 +77,7 @@ export default function MatterEngine() {
 
     //센서 생성
     const deadline = Matter.Bodies.rectangle(200, 20, 400, 2, {
-      isStatic: true,
+      isStatic: false,
       isSensor: true, // 센서로 설정하여 충돌 감지
       render: {
         fillStyle: 'orange',
@@ -147,7 +147,7 @@ export default function MatterEngine() {
           fruitsRef.current.delete(bodyB);
 
           const mergedFruit = Matter.Bodies.circle(newX, newY, newRadius, {
-            restitution: 0.8,
+            restitution: 0.1,
             density: 0.04,
             friction: 0.1,
             label: `fruit-${nextID}`,
@@ -276,7 +276,7 @@ export default function MatterEngine() {
       0, // y 위치는 항상 0
       radius, // 반지름
       {
-        restitution: 0.2, // 튕김 효과
+        restitution: 0.1, // 튕김 효과
         density: 0.04, // 밀도
         friction: 0.1, // 마찰
         label: `fruit-${id}`, // 라벨 추가
@@ -299,7 +299,7 @@ export default function MatterEngine() {
 
     setTimeout(() => {
       setIsInputLocked(false);
-    }, 1500); // 1초 후에 입력 잠금 해제
+    }, 750); // 0.75초 후에 입력 잠금 해제
   };
 
   const checkGameOver = () => {
