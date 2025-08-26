@@ -6,7 +6,7 @@ import GameOverOverlay from './components/GameOverOverlay';
 import dropSnd from '../assets/sounds/drop_sound.mp3';
 import mergeSnd from '../assets/sounds/merged_sound.mp3';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+//const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 export default function MatterEngine() {
   const sceneRef = useRef<HTMLDivElement>(null);
