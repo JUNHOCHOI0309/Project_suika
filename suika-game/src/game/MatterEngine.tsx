@@ -306,12 +306,20 @@ export default function MatterEngine() {
     const topThreshold = 20; // 바닥에서의 임계값
     const bodies = worldRef.current.bodies;
     for (const body of bodies) {
-      if (body.label.startsWith('fruit-') && body.position.y - (body.circleRadius || 0) <= topThreshold) {
-        setIsGameOver(true);
-        return;
-      }
+      if (body.label.startsWith('fruit-')){
+        if(body.position.y - (body.circleRadius || 0) <= topThreshold){
+          setIsGameOver(true);
+          return;
+        }
+
+        if(body.position.y - (body.circleRadius || 0) <= -20){//화면 밖으로 완전히 나가면 게임오버
+          setIsGameOver(true);
+          return;
+        }
+      }       
     }
   }
+  
 
   const resetGame = () => {
     if(!worldRef.current) return;
