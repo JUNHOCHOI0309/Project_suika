@@ -291,15 +291,30 @@ export default function MatterEngine() {
 
     setNextFruitID(getRandomFruitID());
 
+    immidiateCheckGameOver();
+    
     if(deathCheckTimeout.current) clearTimeout(deathCheckTimeout.current);
     deathCheckTimeout.current = setTimeout(() => {
       checkGameOver();
-    }, 3000); // 1초 후에 게임 오버 체크
+    }, 3000); // 3초 후에 게임 오버 체크
 
     setTimeout(() => {
       setIsInputLocked(false);
     }, 750); // 0.75초 후에 입력 잠금 해제
   };
+
+  const immidiateCheckGameOver = () => {
+    if(!worldRef.current || isGameOver) return;
+    const bodies = worldRef.current.bodies;
+    for (const body of bodies) {
+      if (body.label.startsWith('fruit-')){
+        if(body.position.y - (body.circleRadius || 0) <= -30){//화면 밖으로 완전히 나가면 게임오버
+          setIsGameOver(true);
+          return;
+        }
+      }       
+    }  
+  }
 
   const checkGameOver = () => {
     if(!worldRef.current || isGameOver) return;
@@ -308,11 +323,6 @@ export default function MatterEngine() {
     for (const body of bodies) {
       if (body.label.startsWith('fruit-')){
         if(body.position.y - (body.circleRadius || 0) <= topThreshold){
-          setIsGameOver(true);
-          return;
-        }
-
-        if(body.position.y - (body.circleRadius || 0) <= -20){//화면 밖으로 완전히 나가면 게임오버
           setIsGameOver(true);
           return;
         }
