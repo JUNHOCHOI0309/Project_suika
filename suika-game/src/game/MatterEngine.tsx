@@ -308,7 +308,7 @@ export default function MatterEngine() {
     const bodies = worldRef.current.bodies;
     for (const body of bodies) {
       if (body.label.startsWith('fruit-')){
-        if(body.position.y - (body.circleRadius || 0) <= -30){//화면 밖으로 완전히 나가면 게임오버
+        if(body.position.y - (body.circleRadius || 0) <= -70){//화면 밖으로 완전히 나가면 게임오버
           setIsGameOver(true);
           return;
         }
